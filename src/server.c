@@ -6,22 +6,6 @@ int num_worker = 0;  //Global integer to indicate the number of worker threads
 FILE *logfile;  //Global file pointer to the log file
 int queue_len = 0; //Global integer to indicate the length of the queue
 
-/* TODO: Intermediate Submission
-  TODO: Add any global variables that you may need to track the requests and threads
-  [multiple funct]  --> How will you track the p_thread's that you create for workers?
-  [multiple funct]  --> How will you track the p_thread's that you create for dispatchers?
-  [multiple funct]  --> Might be helpful to track the ID's of your threads in a global array
-  What kind of locks will you need to make everything thread safe? [Hint you need multiple]
-  What kind of CVs will you need  (i.e. queue full, queue empty) [Hint you need multiple]
-  How will you track the number of images in the database?
-  How will you track the requests globally between threads? How will you ensure this is thread safe? Example: request_t req_entries[MAX_QUEUE_LEN]; 
-  [multiple funct]  --> How will you update and utilize the current number of requests in the request queue?
-  [worker()]        --> How will you track which index in the request queue to remove next? 
-  [dispatcher()]    --> How will you know where to insert the next request received into the request queue?
-  [multiple funct]  --> How will you track the p_thread's that you create for workers? TODO
-  How will you store the database of images? What data structure will you use? Example: database_entry_t database[100]; 
-*/
-
 //  Dispatcher locking mech
 
 pthread_cond_t cond1 = PTHREAD_COND_INITIALIZER; // Condition variable for queue not full
@@ -87,7 +71,7 @@ request_t* deque() { // function to remove request from the queue
 }
 
 
-//TODO: Implement this function
+
 /**********************************************
  * image_match
    - parameters:
@@ -96,7 +80,6 @@ request_t* deque() { // function to remove request from the queue
    - returns:
        - database_entry_t that is the closest match to the input_image
 ************************************************/
-//just uncomment out when you are ready to implement this function
 database_entry_t image_match(char *input_image, int size)  // input_image is the image data to compare, size is the size of the image data
 {
   // const char *closest_file     = NULL;
@@ -105,7 +88,7 @@ database_entry_t image_match(char *input_image, int size)  // input_image is the
   // // printf("%d\n", databaseSize);
   // for(int i = 0; i < databaseSize /* replace with your database size*/; i++)
   // {
-  //  const char *current_file; /* TODO: assign to the buffer from the database struct*/
+  //  const char *current_file;
   //   // current_file = malloc(2048);
   //   // current_file = database[i].buffer;
   //   current_file = database[i].buffer;
@@ -129,7 +112,7 @@ database_entry_t image_match(char *input_image, int size)  // input_image is the
   int closest_file_size = INT_MAX; // ADD THIS VARIABLE
   for(int i = 0; i < databaseSize /* replace with your database size*/; i++)
   {
-    const char *current_file; /* TODO: assign to the buffer from the database struct*/
+    const char *current_file;
     current_file = database[i].buffer;
     int result = memcmp(input_image, current_file, size); // compare the input image with the current file
     if(result == 0)
@@ -137,13 +120,12 @@ database_entry_t image_match(char *input_image, int size)  // input_image is the
       return database[i];
     }
 
-    // TODO: UPDATE THIS CONDITION FOR TIEBREAKING
     else if(result < closest_distance || (result == closest_distance && database[i].file_size < closest_file_size)) // if the result is less than the closest distance or if the result is equal to the closest distance and the file size is less than the closest file size
     {
       closest_distance = result; // update the closest distance
       closest_file = current_file; // update the closest file
       closest_index = i; // update the closest index
-      closest_file_size = database[i].file_size; // ADD THIS LINE
+      closest_file_size = database[i].file_size;
     }
 
   }
@@ -160,7 +142,6 @@ database_entry_t image_match(char *input_image, int size)  // input_image is the
   
 }
 
-//TODO: Implement this function
 /**********************************************
  * LogPrettyPrint
    - parameters:
@@ -181,7 +162,6 @@ void LogPrettyPrint(FILE* to_write, int threadId, int requestNumber, char * file
   }
 }
 /*
-  TODO: Implement this function for Intermediate Submission
   * loadDatabase
     - parameters:
         - path is the path to the directory containing the images
@@ -274,7 +254,7 @@ void * dispatch(void *arg) // function  to handle incomming requests from the cl
     size_t file_size = 0;
     // request_detials_t request_details;
 
-    /* TODO: Intermediate Submission
+    /*
     *    Description:      Accept client connection
     *    Utility Function: int accept_connection(void)
     */
@@ -285,7 +265,7 @@ void * dispatch(void *arg) // function  to handle incomming requests from the cl
       exit(1);
     }
     
-    /* TODO: Intermediate Submission
+    /*
     *    Description:      Get request from client
     *    Utility Function: char * get_request_server(int fd, size_t *filelength)
     */
@@ -313,7 +293,7 @@ void * dispatch(void *arg) // function  to handle incomming requests from the cl
     // printf("%d %d\n", connection_fd, file_size);
 
 
-   /* TODO
+   /* 
     *    Description:      Add the request into the queue
         //(1) Copy the filename from get_request_server into allocated memory to put on request queue
       
@@ -362,7 +342,7 @@ void * worker(void *arg) {    // arg is the thread_id
   mybuf = malloc(2048);
 
 
-  /* TODO : Intermediate Submission 
+  /* 
   *    Description:      Get the id as an input argument from arg, set it to ID
   */
 
@@ -373,7 +353,7 @@ void * worker(void *arg) {    // arg is the thread_id
   
     
   while (1) {
-    /* TODO
+    /* 
     *    Description:      Get the request from the queue and do as follows
       //(1) Request thread safe access to the request queue by getting the req_queue_mutex lock
       //(2) While the request queue is empty conditionally wait for the request queue lock once the not empty signal is raised
@@ -404,7 +384,7 @@ void * worker(void *arg) {    // arg is the thread_id
     pthread_mutex_unlock(&lock1);   // (5)
         
       
-    /* TODO
+    /* 
     *    Description:       Call image_match with the request buffer and file size
     *    store the result into a typeof database_entry_t
     *    send the file to the client using send_file_to_client(int socket, char * buffer, int size)              
@@ -484,7 +464,7 @@ int main(int argc , char *argv[])
   queue_len           = -1;                               //global variable
  
 
-  /* TODO: Intermediate Submission
+  /* 
   *    Description:      Get the input args --> (1) port (2) path (3) num_dispatcher (4) num_workers  (5) queue_length
   */
   port = atoi(argv[1]);   // Port number
@@ -497,33 +477,29 @@ int main(int argc , char *argv[])
   qEnd = queue_len;
   
 
-  /* TODO: Intermediate Submission
+  /* 
   *    Description:      Open log file
-  *    Hint:             Use Global "File* logfile", use "server_log" as the name, what open flags do you want?
   */
   // logfile = open("server_log", O_WRONLY | O_TRUNC);    // Flags and mode
   logfile = fopen("server_log", "w");
   
  
 
-  /* TODO: Intermediate Submission
+  /*
   *    Description:      Start the server
   *    Utility Function: void init(int port); //look in utils.h 
   */
   init(port);
 
 
-  /* TODO : Intermediate Submission
+  /*
   *    Description:      Load the database
   */
   loadDatabase(path);
  
 
-  /* TODO: Intermediate Submission
+  /*
   *    Description:      Create dispatcher and worker threads 
-  *    Hints:            Use pthread_create, you will want to store pthread's globally
-  *                      You will want to initialize some kind of global array to pass in thread ID's
-  *                      How should you track this p_thread so you can terminate it later? [global]
   */
 
   for (int j = 0; j < num_dispatcher; j++) {   // Create dispatchers : Implement dispatch first
