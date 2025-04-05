@@ -14,33 +14,8 @@ CLIENT:
 For example:
 ./client img 8000 output/img
 
-
-Lab Machine used for testing code:
-csel-kh1250-09
-
-
-Assumptions:
-- We created global helper functions for enqueing and dequeing
-- There are a bunch of prints and file creation definitions (mostly commented out) that were used for testing
-- We added an arg to logPrettyPrint to pass the file fd (Approved by Ryan)
-- One set of test images are created for every image matched - primarily testing purposes
-- Some unused variables in server.c (We mostly created out own variables) 
+ 
 - output/img directory is currently populated with matched images from img directory (run with 50 dispatchers, 50 workers and queue size 20)
-
-
-
-
-
-Group Information:
-Group ID: 51
-Tamojit Bera (bera0041)
-Anastasija Stojanovska(stoja024)
-Pratham Khandelwal (khand113)
-
-
-Contributions:
-Tamojit Bera (bera0041) worked on implementing the whole server functionality with Pratham Khandelwal (khand113).
-Anastasija Stojanovska (stoja024)  primarily focused on implementing the client and contributed to the server functionality by helping facilitate the transmission of information from the client to the server.
 
 
 
