@@ -1,13 +1,6 @@
 #ifndef _UTIL_H
 #define _UTIL_H
 #include <stdio.h>
-
-
-typedef struct packet {
-    unsigned int size;
-} packet_t; 
-
-
 /**********************************************
  * init
    - port is the number of the port you want the server to be

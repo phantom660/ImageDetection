@@ -37,6 +37,11 @@ typedef struct processing_args
     char *file_name;
 } processing_args_t;
 
+
+typedef struct packet {
+    unsigned int size;
+} packet_t;
+
 typedef struct request_detials
 {
     char buffer[1028];

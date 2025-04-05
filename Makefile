@@ -4,23 +4,17 @@ CFLAGS=-g -Wall -pthread
 SRCDIR=src
 INCDIR=include
 LIBDIR=lib
-OUTPUTDIR=output
 
-all: outdir utils server client
+all: outdir $(LIBDIR)/utils.o server client
 
-utils: 
-	$(CC) $(CFLAGS) -c $(SRCDIR)/utils.c -o $(LIBDIR)/utils.o
-server: $(LIBDIR)/server.o $(LIBDIR)/utils.o
-	$(CC) $(CFLAGS) -o $@ $^ -lm
+server: $(LIBDIR)/utils.o $(INCDIR)/utils.h $(SRCDIR)/server.c
+	$(CC) $(CFLAGS) -I$(INCDIR) -o $@ $(LIBDIR)/utils.o $(SRCDIR)/server.c -lm
 
-client: $(LIBDIR)/client.o $(LIBDIR)/utils.o
-	$(CC) $(CFLAGS) -o $@ $^ -lm
-
+client: $(LIBDIR)/utils.o $(INCDIR)/utils.h $(SRCDIR)/client.c
+	$(CC) $(CFLAGS) -I$(INCDIR) -o $@ $(LIBDIR)/utils.o $(SRCDIR)/client.c -lm
+	
 .PHONY: clean outdir
 
 clean:
-	rm -f server client $(LIBDIR)/utils.o
-	rm -rf $(OUTPUTDIR)
-
-outdir:
-	mkdir -p $(OUTPUTDIR)
+	rm -f server client
+	rm -rf output

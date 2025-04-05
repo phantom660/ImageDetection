@@ -31,7 +31,6 @@
 #include <fcntl.h>
 #include <sys/time.h>
 #include <time.h>
-// #include "util.h"
 #include <stdbool.h>
 #include <unistd.h>
 #include <signal.h>
@@ -67,13 +66,16 @@ typedef struct request_queue
     char *buffer;
 }request_t; 
 
-typedef struct request_detials
-{
-  char buffer[1028];
-  long filelength;
-  char file_name[1028];
-} request_detials_t;
- 
+// typedef struct request_detials
+// {
+//   char buffer[1028];
+//   long filelength;
+//   char file_name[1028];
+// } request_detials_t;
+
+typedef struct packet {
+  unsigned int size;
+} packet_t; 
 
 typedef struct database_entry
 {
