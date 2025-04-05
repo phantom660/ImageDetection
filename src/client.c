@@ -11,15 +11,6 @@ char input_path[1028]; // Input path
 
 processing_args_t req_entries[100]; // Array of processing arguments
 
-/* TODO: implement the request_handle function to send the image to the server and recieve the processed image
-* 1. Open the file in the read-binary mode - Intermediate Submission
-* 2. Get the file length using the fseek and ftell functions - Intermediate Submission
-* 3. set up the connection with the server using the setup_connection(int port) function - Intermediate Submission
-* 4. Send the file to the server using the send_file_to_server(int socket, FILE *fd, size_t size) function - Intermediate Submission
-* 5. Receive the processed image from the server using the receive_file_from_server(int socket, char *file_path) function
-* 6. receive_file_from_server saves the processed image in the output directory, so pass in the right directory path
-* 7. Close the file and the socket
-*/
 void * request_handle(void * args) // function to send the image to the server and receive the processed image
 {
     char file_path[4096] = ""; // File path
@@ -85,8 +76,8 @@ void * request_handle(void * args) // function to send the image to the server a
     return NULL;
 }
 
-/* TODO: Intermediate Submission
-* implement the directory_trav function to traverse the directory and send the images to the server 
+/*
+* The directory_trav function to traverse the directory and send the images to the server 
 * 1. Open the directory
 * 2. Read the directory entries
 * 3. If the entry is a file, create a new thread to invoke the request_handle function which takes the file path as an argument
@@ -151,7 +142,7 @@ int main(int argc, char *argv[]) // Main function takes in the directory path, s
         fprintf(stderr, "Usage: ./client <directory path> <Server Port> <output path>\n"); //
         exit(-1);
     }
-    /*TODO:  Intermediate Submission
+    /*
     * 1. Get the input args --> (1) directory path (2) Server Port (3) output path
     */
     char *directory_path = argv[1]; // Directory path
@@ -160,7 +151,7 @@ int main(int argc, char *argv[]) // Main function takes in the directory path, s
     strcpy(input_path, argv[1]); // Input path
 
 
-    /*TODO: Intermediate Submission
+    /*
     * Call the directory_trav function to traverse the directory and send the images to the server
     */
     directory_trav(input_path); // Traverse the directory and send the images to the server
